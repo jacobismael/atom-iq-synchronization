@@ -29,7 +29,7 @@ def get_address_positions(addresses: list[int], positions: list) -> None:
 def write_addresses(addresses: list[int], values: list[float]) -> bool:
     for address, value in zip(addresses, values):
         utils.float_to_registers()
-        if not c.write_multiple_registers(address, value):
+        if not c.write_multiple_registers(address, value) or c.read_input_registers([1039], 1) is 0:
             print(f'Error: could not write {address} register')
             return False
         return True
@@ -40,7 +40,7 @@ def move_joint_position(joints: list) -> None:
     write_addresses(command_address, [1])
 
 def move_tool_position(x , y, z, roll = 0.0, pitch = 0.0, yaw = 0.0) -> None:
-    # implement limiters
+    # TODO: implement limiters
     args = [x, y, z, roll, pitch, yaw]
     if not write_addresses(command_value_addresses, args):
         print("Error: Couldn't write to command argument registers. Aborting command")
