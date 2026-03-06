@@ -27,11 +27,16 @@ def get_address_positions(addresses: list[int], positions: list) -> None:
         index = index + 1
 
 def write_addresses(addresses: list[int], values: list[float]) -> bool:
-    for address, value in zip(addresses, values):
-        utils.float_to_registers()
-        if not c.write_multiple_registers(address, value) or c.read_input_registers([1039], 1) is 0:
+    value = 0
+    for address in addresses:
+        reg_list = list(utils.float_to_registers(values[value]))
+        if not c.write_multiple_registers(address, reg_list) or c.read_input_registers([1039], 1) is 0:
             print(f'Error: could not write {address} register')
             return False
+        value = value + 1
+        # end of arguments
+        if(value == len(values)):
+            break
         return True
 
 def move_joint_position(joints: list) -> None:
