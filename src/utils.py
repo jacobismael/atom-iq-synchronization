@@ -1,4 +1,14 @@
 from pyModbusTCP.utils import decode_ieee, encode_ieee, word_list_to_long, long_list_to_word
+from enum import Enum
+
+class Status(Enum):
+    ERROR = 0
+    SUCCESS = 1
+
+class State(Enum):
+    IDLE = 0
+    RUNNING = 1
+    FAULT = 2
 
 def registers_to_float(reg1: int, reg2: int) -> float:
     """Combines reg1 (low) and reg2 (high) into a float."""
